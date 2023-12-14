@@ -14,7 +14,7 @@ C2: SELECT DISTINCT CITY FROM STATION WHERE CITY LIKE 'a%' OR CITY LIKE 'e%' OR 
 SELECT DISTINCT CITY FROM STATION WHERE CITY LIKE '%a'OR CITY LIKE '%e'OR CITY LIKE'%i'OR CITY LIKE '%o'OR CITY LIKE '%u';
 
 --ex6:
-SELECT CITY FROM STATION WHERE (CITY NOT IN (SELECT CITY FROM STATION WHERE CITY LIKE 'a%' OR CITY LIKE 'e%' OR CITY LIKE 'i%' OR CITY LIKE 'o%' OR CITY LIKE 'u%'))
+SELECT DISTINCT CITY FROM STATION WHERE (CITY NOT IN (SELECT CITY FROM STATION WHERE CITY LIKE 'a%' OR CITY LIKE 'e%' OR CITY LIKE 'i%' OR CITY LIKE 'o%' OR CITY LIKE 'u%'))
 
 --ex7:	Submissions	Leaderboard	Discussionsiscussions. Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
 SELECT name FROM Employee ORDER BY name
