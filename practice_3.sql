@@ -1,1 +1,8 @@
+--ex1:
+SELECT Name FROM STUDENTS
+WHERE Marks >75 
+ORDER BY RIGHT(Name,3), ID ASC 
 
+--ex2: 
+SELECT user_id, CONCAT(UPPER(LEFT(name,1)),LOWER(SUBSTRING(name FROM 2 FOR (LENGTH(name)-1)))) AS name FROM Users
+ORDER BY user_id
