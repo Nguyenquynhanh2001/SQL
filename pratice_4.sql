@@ -15,20 +15,24 @@ CASE
 WHEN x+y>z AND x+z>y AND y+z>x THEN 'Yes' ELSE 'No'
 END AS triangle
 FROM Triangle 
+  
 --ex3
 SELECT
 CEILING(CAST(
 COUNT(CASE WHEN COALESCE(call_category) OR call_category='n/a' THEN 'j' END)
 *100/COUNT(call_category)) AS DECIMAL,1) AS call_percentage
 FROM callers;
+
 --ex4
-
---ex5
-
---ex6
 SELECT
 ROUND(CAST((COUNT(CASE WHEN call_category='n/a' THEN 'j' END) + COUNT(COALESCE(call_category))
 )/COUNT(case_id) AS DECIMAL),1) FROM callers
---ex7
 
---ex8 
+--ex5
+SELECT survived,
+COUNT(CASE WHEN pclass=1 THEN 'first_class' END) AS first_class,
+COUNT(CASE WHEN pclass=2 THEN 'second_class' END) AS second_class,
+COUNT(CASE WHEN pclass=3 THEN 'third_class'END) AS third_class
+FROM titanic
+GROUP BY survived 
+
