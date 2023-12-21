@@ -26,7 +26,9 @@ FROM callers;
 --ex5
 
 --ex6
-
+SELECT
+ROUND(CAST((COUNT(CASE WHEN call_category='n/a' THEN 'j' END) + COUNT(COALESCE(call_category))
+)/COUNT(case_id) AS DECIMAL),1) FROM callers
 --ex7
 
 --ex8 
