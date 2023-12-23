@@ -23,7 +23,7 @@ FULL JOIN texts ON emails.email_id = texts.email_id
 SELECT customer_id FROM customer_contracts AS cus
 LEFT JOIN products AS p ON cus.product_id = p.product_id 
 GROUP BY customer_id 
-HAVING COUNT(DISTINCT products.product_category)>= COUNT(SELECT COUNT( DISTINCT product_category) FROM products);
+HAVING COUNT(DISTINCT products.product_category)>= COUNT(SELECT COUNT(DISTINCT product_category) FROM products);
 
 --ex5
 SELECT mng.employee_id,mng.name, COUNT(emp.employee_id) AS reports_count , ROUND(AVG(CAST(emp.age AS DECIMAL)),0) AS average_age 
@@ -34,5 +34,14 @@ GROUP BY mng.employee_id,mng.name
 ORDER BY employee_id
 
 --ex6
+SELECT product_name, SUM(O.unit) AS unit
+FROM Products P, Orders O
+WHERE P.product_id = O.product_id AND EXTRACT(MONTH FROM order_date) = '02'
+AND EXTRACT(YEAR FROM order_date) = '2020'
+GROUP BY P.product_id,product_name HAVING SUM(O.unit)>=100
 
 --ex7 
+SELECT pages.page_id  FROM pages
+LEFT JOIN page_likes ON pages.page_id = page_likes.page_id
+WHERE page_likes.user_id IS NULL
+ORDER BY pages.page_id ASC
