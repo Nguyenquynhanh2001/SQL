@@ -23,7 +23,7 @@ FULL JOIN texts ON emails.email_id = texts.email_id
 SELECT customer_id FROM customer_contracts AS cus
 LEFT JOIN products AS p ON cus.product_id = p.product_id 
 GROUP BY customer_id 
-HAVING COUNT(DISTINCT products.product_category)>= COUNT(SELECT COUNT(DISTINCT product_category) FROM products);
+HAVING COUNT(DISTINCT p.product_category)= 3
 
 --ex5
 SELECT mng.employee_id,mng.name, COUNT(emp.employee_id) AS reports_count , ROUND(AVG(CAST(emp.age AS DECIMAL)),0) AS average_age 
