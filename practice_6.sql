@@ -1,3 +1,4 @@
+
 --ex1:
 SELECT COUNT(DISTINCT big.company_id) FROM job_listings big
 JOIN (SELECT company_id,job_id,title, description FROM job_listings small 
@@ -32,6 +33,17 @@ WHERE month_action IN (6,7)
 GROUP BY user_id HAVING COUNT(user_id)=2) AS user_idid
 
 --ex6:
+SELECT TO_CHAR(trans_date, 'YYYY-MM')
+ AS month, country, 
+COUNT(amount) AS trans_count, SUM(approved_total.approved_count) AS approved_count, SUM(trans_total.amount) AS trans_total_amount, SUM(approved_amount) AS approved_total_amount FROM Transactions trans_total
+LEFT JOIN (SELECT id,
+CASE WHEN state = 'approved' then 1 ELSE 0 END AS approved_count, amount AS approved_amount
+FROM Transactions WHERE state='approved') AS approved_total
+ON trans_total.id = approved_total.id 
+GROUP BY TO_CHAR(trans_date, 'YYYY-MM'), country
+
+--ex7:
+
 
 
 
