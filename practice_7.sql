@@ -62,14 +62,15 @@ FROM rank
 WHERE ranking <=2
 
 --ex8:
-SELECT songs.artist_id,
-        RANK() OVER
-        (PARTITION BY songs.artist_id ORDER BY COUNT(*)) AS artist_rank
-FROM songs 
-JOIN (SELECT song_id FROM global_song_rank WHERE rank <= 10) AS song_top10
-ON song_top10.song_id = songs.song_id 
-JOIN artists ON artists.artist_id = songs.artist_id 
-GROUP BY songs.artist_id 
+WITH song_top10 AS (SELECT global_song_rank.song_id, global_song_rank.rank  
+FROM global_song_rank WHERE rank <= 10 ) 
+
+SELECT artists.artist_name, DENSE_RANK() OVER(ORDER BY COUNT(*) DESC) AS artist_rank
+FROM song_top10 
+JOIN songs ON song_top10.song_id = songs.song_id 
+JOIN artists ON songs.artist_id = artists.artist_id
+GROUP BY artists.artist_name 
+
 
 
 
