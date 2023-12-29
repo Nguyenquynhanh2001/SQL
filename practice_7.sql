@@ -29,6 +29,47 @@ GROUP BY DATE(transaction_date), user_id
 ORDER BY transaction_date
 
 --ex5:
+WITH newtable AS
+(SELECT user_id,
+        tweet_date,
+        tweet_count,
+        LAG(tweet_count) OVER(PARTITION BY user_id ORDER BY tweet_date) AS pre_day,
+        LAG(tweet_count,2) OVER(PARTITION BY user_id ORDER BY tweet_date) AS pre_2day
+FROM tweets)
+SELECT user_id, tweet_date, ROUND(CAST((tweet_count + pre_day + pre_2day) AS DECIMAL)/3,2)   AS rolling_avg_3d 
+FROM newtable 
+
+--ex6:
+SELECT user_id,
+        tweet_date,
+        tweet_count,
+        ROUND(AVG(tweet_count) OVER(
+              PARTITION BY user_id 
+              ORDER BY tweet_date
+              ROWS BETWEEN 2 PRECEDING AND CURRENT ROW),2) AS rolling_avg_3d
+  FROM tweets
+
+--ex7:
+WITH rank AS (SELECT category,
+       product,
+       SUM(spend) total_spend,
+       RANK() OVER(PARTITION BY category ORDER BY SUM(spend) DESC) AS ranking 
+FROM product_spend
+WHERE EXTRACT(YEAR FROM transaction_date) = '2022'
+GROUP BY category, product)
+SELECT category, product, total_spend
+FROM rank 
+WHERE ranking <=2
+
+--ex8:
+SELECT songs.artist_id,
+        RANK() OVER
+        (PARTITION BY songs.artist_id ORDER BY COUNT(*)) AS artist_rank
+FROM songs 
+JOIN (SELECT song_id FROM global_song_rank WHERE rank <= 10) AS song_top10
+ON song_top10.song_id = songs.song_id 
+JOIN artists ON artists.artist_id = songs.artist_id 
+GROUP BY songs.artist_id 
 
 
 
